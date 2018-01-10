@@ -1,0 +1,16 @@
+extends layout
+
+block content
+  .container
+    h1.text-center Stock Market
+    canvas#line-chart.mb-3(width="1100", height="400",  data-stocks!=title)
+    .card.float-left.add(style='width: 22rem; height: 10rem;')
+      .card-body
+        h6.card-title Syncs in realtime across clients
+        p.card-subtitle
+        input.form-control(type='text', placeholder='Enter Stock')
+        button.btn.btn-success.mt-3.add_button(type='button') Add
+  script(src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js')
+  script(src='javascripts/script2.js')
+
+
