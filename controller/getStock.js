@@ -17,33 +17,43 @@ var date_sort_asc = function (date1, date2) {
   };
 
 function parseQuotes(quotes, symbol) {
-    let returnObj = {};
-    let data = [];
-    let date = [];
-    for (let i = 0; i < quotes.length; i++) {
-        if(quotes[i].close) {
-            data.unshift(quotes[i].close);
-            date.unshift(quotes[i].date);
+    if (quotes.length === 0) {
+        return null;
+    } else {
+        let returnObj = {};
+        let data = [];
+        let date = [];
+        for (let i = 0; i < quotes.length; i++) {
+            if(quotes[i].close) {
+                data.unshift(quotes[i].close);
+                date.unshift(quotes[i].date);
+            }
+          
         }
-      
+        returnObj.symbol = symbol;
+        returnObj.data = data;
+        returnObj.date = date
+        //returnObj.date = date.sort(date_sort_asc);
+        return returnObj;
     }
-    returnObj.symbol = symbol;
-    returnObj.data = data;
-    returnObj.date = date
-    //returnObj.date = date.sort(date_sort_asc);
-    return returnObj;
+
 }
 
 function formatDate(result) {
-    let arr = [];
-    for(let i = 0; i < result.date.length; i++) {
-        arr.push(date.format(result.date[i], 'MMM YY'))
+    if (result) {
+        let arr = [];
+        for(let i = 0; i < result.date.length; i++) {
+            arr.push(date.format(result.date[i], 'MMM YY'))
+        }
+        result.date = arr;
+        return result;
+    } else {
+        return null;
     }
-    result.date = arr;
-    return result;
+ 
 }
 
-let symbol = "aapl";
+
 
 function getStock(symbol) {
     symbol = symbol.toUpperCase();
@@ -56,11 +66,7 @@ function getStock(symbol) {
             // period: 'd'  // 'd' (daily), 'w' (weekly), 'm' (monthly), 'v' (dividends only)
           })
           .then((quotes) => {
-              if (quotes.length === 0) {
-                  resolve(null);
-              } else {
-                return parseQuotes(quotes,symbol);
-              }              
+                return parseQuotes(quotes,symbol);           
           })
           .then((quotes) => {
               resolve(formatDate(quotes));

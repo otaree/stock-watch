@@ -68,7 +68,7 @@ router.get("/stocks", (req, res, next) => {
 
 router.post("/checkstock", (req, res, next) => {
   let symbol = req.body.stock;
-  console.log(symbol);
+  symbol = symbol.toUpperCase();
   var query = Stock.findOne({
     symbol: symbol
   }).exec();
